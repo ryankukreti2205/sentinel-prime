@@ -15,7 +15,7 @@ function App() {
   const NODE_API = "https://sentinel-prime-3iki.onrender.com/api/logs"
   
   // ⚠️ REPLACE THIS STRING WITH YOUR ACTUAL NGROK HTTPS URL ⚠️
-  const PYTHON_API = " https://4c3d-2401-4900-5c7a-ce06-15f2-875e-913f-65"
+  const PYTHON_API = "https://4c3d-2401-4900-5c7a-ce06-15f2-875e-913f-658a.ngrok-free.app"
 
   // 1. Handle File Upload
   const handleFileChange = async (event) => {
