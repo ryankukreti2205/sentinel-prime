@@ -13,7 +13,9 @@ CORS(app)  # Allow React to talk to Python
 # --- CONFIGURATION ---
 MODEL_PATH = '/Users/ryankukreti/Library/CloudStorage/OneDrive-ShriVileParleKelavaniMandal/SEM VI/Projects/Sentinal Cloud/runs/detect/sentinel_final_v3/weights/best.pt' # CHECK THIS PATH
 UPLOAD_FOLDER = 'uploads'
-NODE_BACKEND_URL = "http://localhost:5050/api/logs"
+
+# UPDATED: Added the specific API endpoint route (/api/alerts) to your Render URL
+NODE_BACKEND_URL = "https://sentinel-prime-3iki.onrender.com/api/alerts"
 
 # Create uploads folder if not exists
 if not os.path.exists(UPLOAD_FOLDER):
@@ -58,7 +60,7 @@ def generate_frames():
                 consecutive_frames = persistence_req
                 # IOT TRIGGER
                 if not alert_sent_flag:
-                    threading.Thread(target=send_log_to_node).start()
+                    threading.Thread(target=send_log_to_node, daemon=True).start()
                     alert_sent_flag = True
         else:
             consecutive_frames = 0
@@ -91,13 +93,14 @@ def generate_frames():
 def send_log_to_node():
     """Talks to your Node.js backend"""
     try:
+        # UPDATED: Added timeout=3 so network lag doesn't hold up your script
         requests.post(NODE_BACKEND_URL, json={
             "object": "Emergency Vehicle",
             "confidence": 99.9
-        })
+        }, timeout=3)
         print("✅ Alert sent to Node Backend")
-    except:
-        pass
+    except Exception as e:
+        print(f"⚠️ Network error while sending alert: {e}")
 
 @app.route('/upload', methods=['POST'])
 def upload_video():
