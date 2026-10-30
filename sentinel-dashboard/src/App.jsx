@@ -11,9 +11,11 @@ function App() {
   // Ref for the hidden file input
   const fileInputRef = useRef(null)
 
-  // URLS (UPDATED: Node points to cloud, Python points to local edge)
+  // URLS (UPDATED: Node points to cloud, Python points to Ngrok Edge Tunnel)
   const NODE_API = "https://sentinel-prime-3iki.onrender.com/api/logs"
-  const PYTHON_API = "2vFlZgFEiwnSoXSSIBo7xwRvf4J_3HKP2VB5SJhWwEJfbDhH1"
+  
+  // ⚠️ REPLACE THIS STRING WITH YOUR ACTUAL NGROK HTTPS URL ⚠️
+  const PYTHON_API = " https://4c3d-2401-4900-5c7a-ce06-15f2-875e-913f-65"
 
   // 1. Handle File Upload
   const handleFileChange = async (event) => {
@@ -25,9 +27,12 @@ function App() {
     formData.append('file', file)
 
     try {
-      // Send file to Python
+      // Send file to Python (ADDED NGROK BYPASS HEADERS)
       await axios.post(`${PYTHON_API}/upload`, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { 
+          'Content-Type': 'multipart/form-data',
+          'ngrok-skip-browser-warning': 'true'
+        }
       })
       
       // If success, set the video source to the Python Stream URL
