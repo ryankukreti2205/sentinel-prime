@@ -11,9 +11,9 @@ function App() {
   // Ref for the hidden file input
   const fileInputRef = useRef(null)
 
-  // URLS
-  const NODE_API = "http://localhost:5050/api/logs"
-  const PYTHON_API = "http://localhost:5001"
+  // URLS (UPDATED: Node points to cloud, Python points to local edge)
+  const NODE_API = "https://sentinel-prime-3iki.onrender.com/api/logs"
+  const PYTHON_API = "2vFlZgFEiwnSoXSSIBo7xwRvf4J_3HKP2VB5SJhWwEJfbDhH1"
 
   // 1. Handle File Upload
   const handleFileChange = async (event) => {
